@@ -1,0 +1,52 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+  background: #f7f9fc;
+  color: #333;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+#inject-btn {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#inject-btn:hover:not(:disabled) {
+  background-color: #43a047;
+}
+
+#inject-btn:disabled {
+  background-color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+#close-btn {
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#close-btn:hover:not(:disabled) {
+  background-color: red;
+}
+
+#close-btn:disabled {
+  background-color: #9e9e9e;
+  cursor: not-allowed;
+}
