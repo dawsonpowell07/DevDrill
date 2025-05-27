@@ -17,6 +17,7 @@
     <div style="display: flex; gap: 10px; margin-bottom: 10px;">
       <button id="start-rec">Start</button>
       <button id="stop-rec" disabled>Stop</button>
+      <button id="upload-rec" disabled>Upload</button>
     </div>
     <p id="status"></p>
     <audio id="playback" controls></audio>
@@ -25,9 +26,11 @@
 
   let mediaRecorder;
   let audioChunks = [];
+  let audioBlob = null;
 
   const startBtn = document.getElementById("start-rec");
   const stopBtn = document.getElementById("stop-rec");
+  const uploadBtn = document.getElementById("upload-rec");
   const statusText = document.getElementById("status");
   const playback = document.getElementById("playback");
 
@@ -44,16 +47,18 @@
       };
 
       mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+        audioBlob = new Blob(audioChunks, { type: "audio/webm" });
         const audioUrl = URL.createObjectURL(audioBlob);
         playback.src = audioUrl;
         playback.style.display = "block";
         statusText.textContent = "✅ Recording saved!";
+        uploadBtn.disabled = false;
       };
 
       mediaRecorder.start();
       startBtn.disabled = true;
       stopBtn.disabled = false;
+      uploadBtn.disabled = true;
       statusText.textContent = "🔴 Recording...";
     } catch (err) {
       console.error("Microphone error:", err);
@@ -67,6 +72,30 @@
       startBtn.disabled = false;
       stopBtn.disabled = true;
       statusText.textContent = "⏹️ Stopped. Saving...";
+    }
+  };
+
+  uploadBtn.onclick = async () => {
+    if (!audioBlob) {
+      statusText.textContent = "⚠️ No recording to upload.";
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", audioBlob, "recording.webm");
+
+    try {
+      const response = await fetch("http://localhost:8000/transcribe", {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+      console.log("Upload success:", result);
+      statusText.textContent = "✅ Uploaded successfully!";
+    } catch (err) {
+      console.error("Upload failed:", err);
+      statusText.textContent = "❌ Upload failed.";
     }
   };
 })();
