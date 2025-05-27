@@ -41,3 +41,42 @@ chrome.scripting.executeScript({
   injectBtn.disabled = false;
   closeBtn.disabled = true;
 });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "TRANSCRIPT_AND_FEEDBACK") {
+    const { transcript, feedback } = message;
+
+    const container = document.querySelector("body");
+
+    const chatHistory = document.getElementById("chat-history");
+    if (!chatHistory) {
+      const historyDiv = document.createElement("div");
+      historyDiv.id = "chat-history";
+      historyDiv.style = "display: flex; flex-direction: column; gap: 12px; margin-top: 16px;";
+      container.appendChild(historyDiv);
+    }
+
+    const userMsg = document.createElement("div");
+    userMsg.style = `
+      align-self: flex-start;
+      background-color: #e0f7fa;
+      padding: 10px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    `;
+    userMsg.textContent = transcript;
+
+    const aiMsg = document.createElement("div");
+    aiMsg.style = `
+      align-self: flex-end;
+      background-color: #ede7f6;
+      padding: 10px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    `;
+    aiMsg.textContent = feedback;
+
+    document.getElementById("chat-history").appendChild(userMsg);
+    document.getElementById("chat-history").appendChild(aiMsg);
+  }
+});

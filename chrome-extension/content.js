@@ -87,15 +87,40 @@
     try {
       const response = await fetch("http://localhost:8000/transcribe", {
         method: "POST",
-        body: formData
+        body: formData,
       });
 
       const result = await response.json();
-      console.log("Upload success:", result);
-      statusText.textContent = "✅ Uploaded successfully!";
+      const transcript = result.transcription;
+      statusText.textContent = "✅ Transcribed! Generating feedback...";
+
+      const feedbackResponse = await fetch(
+        "http://localhost:8000/generate-feedback",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ current_transcript: transcript }),
+        }
+      );
+
+      const feedbackResult = await feedbackResponse.json();
+      const feedback = feedbackResult.feedback;
+
+      statusText.textContent = "✅ Feedback received!";
+      console.log("Transcript:", transcript);
+      console.log("Feedback:", feedback);
+
+      // Send to sidepanel
+      chrome.runtime.sendMessage({
+        type: "TRANSCRIPT_AND_FEEDBACK",
+        transcript,
+        feedback,
+      });
     } catch (err) {
-      console.error("Upload failed:", err);
-      statusText.textContent = "❌ Upload failed.";
+      console.error("Upload or feedback failed:", err);
+      statusText.textContent = "❌ Upload or feedback failed.";
     }
   };
 })();
