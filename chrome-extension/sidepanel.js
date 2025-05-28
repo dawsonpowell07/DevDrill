@@ -9,7 +9,7 @@ function sendProblemContextToContentScript() {
     chrome.tabs.sendMessage(tabs[0].id, {
       type: "QUESTION_CONTEXT",
       title,
-      description
+      description,
     });
   });
 }
@@ -19,7 +19,7 @@ injectBtn.addEventListener("click", async () => {
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    files: ["content.js"]
+    files: ["content.js"],
   });
 
   sendProblemContextToContentScript();
@@ -32,7 +32,7 @@ injectBtn.addEventListener("click", async () => {
 closeBtn.addEventListener("click", async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-chrome.scripting.executeScript({
+  chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: () => {
       const container = document.getElementById("ai-recorder-ui");
@@ -43,13 +43,15 @@ chrome.scripting.executeScript({
 
         // Stop all audio streams
         if (window._ai_recorder_stream) {
-          window._ai_recorder_stream.getTracks().forEach(track => track.stop());
+          window._ai_recorder_stream
+            .getTracks()
+            .forEach((track) => track.stop());
           window._ai_recorder_stream = null;
         }
 
         container.remove();
       }
-    }
+    },
   });
 
   injectBtn.textContent = "Start Recorder";
@@ -72,26 +74,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     const userMsg = document.createElement("div");
-    userMsg.style = `
-      align-self: flex-start;
-      background-color: #e0f7fa;
-      padding: 10px;
-      border-radius: 8px;
-      white-space: pre-wrap;
-    `;
-    userMsg.textContent = transcript;
+    userMsg.className = "message user-message";
+    // Set up marked.js options for better markdown rendering
+    marked.setOptions({
+      highlight: function(code, lang) {
+        return code;
+      },
+      breaks: true,
+      gfm: true
+    });
+    userMsg.innerHTML = DOMPurify.sanitize(marked.parse(transcript));
 
     const aiMsg = document.createElement("div");
-    aiMsg.style = `
-      align-self: flex-end;
-      background-color: #ede7f6;
-      padding: 10px;
-      border-radius: 8px;
-      white-space: pre-wrap;
-    `;
-    aiMsg.textContent = feedback;
+    aiMsg.className = "message ai-message";
+    aiMsg.innerHTML = DOMPurify.sanitize(marked.parse(feedback));
 
     document.getElementById("chat-history").appendChild(userMsg);
     document.getElementById("chat-history").appendChild(aiMsg);
+
+    // Scroll to the bottom of the chat
+    chatHistory.scrollTop = chatHistory.scrollHeight;
   }
 });

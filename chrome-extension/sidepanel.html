@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>AI Interview Prep Tool</title>
-  <link rel="stylesheet" href="sidepanel.css">
-</head>
-<body>
-  <h2>🎤 AI Interview Recorder</h2>
-  <p>Inject the audio recorder onto your current page to begin.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Interview Prep Tool</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h2>🎤 AI Interview Recorder</h2>
+    <p>Inject the audio recorder onto your current page to begin.</p>
 
-  <button id="inject-btn">Start Recorder</button>
-  <button id="close-btn" disabled>Close Recorder</button>
-  <h2> Want to give the AI more context? Fill in the info below</h2>
-  <div class="context-form">
-    <label for="question-title">Problem Title</label>
-    <input id="question-title" name="question-title" placeholder="Enter problem title..." />
+    <button id="inject-btn">Start Recorder</button>
+    <button id="close-btn" disabled>Close Recorder</button>
+    <h2>Want to give the AI more context? Fill in the info below</h2>
+    <div class="context-form">
+      <label for="question-title">Problem Title</label>
+      <input
+        id="question-title"
+        name="question-title"
+        placeholder="Enter problem title..."
+      />
 
-    <label for="question-description">Problem Description</label>
-    <textarea id="question-description" name="question-description" rows="6" placeholder="Paste or type the full problem description..."></textarea>
-  </div>
+      <label for="question-description">Problem Description</label>
+      <textarea
+        id="question-description"
+        name="question-description"
+        rows="6"
+        placeholder="Paste or type the full problem description..."
+      ></textarea>
+    </div>
 
-  <script src="sidepanel.js"></script>
-</body>
+    <script src="sidepanel.js"></script>
+    <script src="libs/marked.min.js"></script>
+    <script src="libs/purify.min.js"></script>
+  </body>
 </html>

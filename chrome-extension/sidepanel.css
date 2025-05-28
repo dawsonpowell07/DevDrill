@@ -81,3 +81,145 @@ button {
   border-color: #4caf50;
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
+
+#chat-history {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 20px;
+  max-width: 100%;
+  padding-top: 20px;
+}
+
+.message {
+  max-width: 85%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  line-height: 1.5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  margin-top: 20px;
+}
+
+.user-message {
+  align-self: flex-start;
+  background-color: #e3f2fd;
+  border-bottom-left-radius: 4px;
+}
+
+.ai-message {
+  align-self: flex-end;
+  background-color: #f3e5f5;
+  border-bottom-right-radius: 4px;
+}
+
+/* Add visual indicators for the messages */
+.message::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+}
+
+.user-message::before {
+  content: 'You';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.ai-message::before {
+  content: 'AI';
+  position: absolute;
+  top: -20px;
+  right: 0;
+  font-size: 12px;
+  color: #666;
+}
+
+#chat-history code {
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+}
+
+#chat-history pre {
+  background-color: #2d2d2d;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+#chat-history pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+#chat-history p {
+  margin: 8px 0;
+}
+
+#chat-history h1, #chat-history h2, #chat-history h3, 
+#chat-history h4, #chat-history h5, #chat-history h6 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+#chat-history ul, #chat-history ol {
+  padding-left: 24px;
+  margin: 8px 0;
+}
+
+#chat-history blockquote {
+  border-left: 4px solid #9575cd;
+  margin: 8px 0;
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+#chat-history a {
+  color: #7c4dff;
+  text-decoration: none;
+}
+
+#chat-history a:hover {
+  text-decoration: underline;
+}
+
+#chat-history table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+}
+
+#chat-history th, #chat-history td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#chat-history th {
+  background-color: #f5f5f5;
+}
+
+#chat-history img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+#chat-history hr {
+  border: none;
+  border-top: 2px solid #e0e0e0;
+  margin: 16px 0;
+}

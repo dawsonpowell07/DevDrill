@@ -15,6 +15,7 @@
     if (message.type === "QUESTION_CONTEXT") {
       problemTitle = message.title;
       problemDescription = message.description;
+      console.log("Received problem context:", { problemTitle, problemDescription });
     }
   });
 
@@ -118,6 +119,12 @@
           }),
         }
       );
+
+      console.log("Sending feedback request with context:", {
+        transcript,
+        problemTitle,
+        problemDescription,
+      });
 
       const feedbackResult = await feedbackResponse.json();
       const feedback = feedbackResult.feedback;
