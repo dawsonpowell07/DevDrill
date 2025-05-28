@@ -9,16 +9,25 @@ h2 {
   margin-top: 0;
 }
 
-#inject-btn {
+button {
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+#inject-btn,
+#close-btn {
   padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
   border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+
+#inject-btn {
+  background-color: #4caf50;
+  color: white;
 }
 
 #inject-btn:hover:not(:disabled) {
@@ -31,22 +40,44 @@ h2 {
 }
 
 #close-btn {
-  padding: 10px 20px;
   background-color: red;
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 #close-btn:hover:not(:disabled) {
-  background-color: red;
+  background-color: darkred;
 }
 
 #close-btn:disabled {
   background-color: #9e9e9e;
   cursor: not-allowed;
+}
+
+.context-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.context-form label {
+  font-weight: 600;
+}
+
+.context-form input,
+.context-form textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: #fff;
+  transition: border 0.2s ease;
+}
+
+.context-form input:focus,
+.context-form textarea:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }

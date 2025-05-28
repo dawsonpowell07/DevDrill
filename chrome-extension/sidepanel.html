@@ -8,8 +8,17 @@
 <body>
   <h2>🎤 AI Interview Recorder</h2>
   <p>Inject the audio recorder onto your current page to begin.</p>
+
   <button id="inject-btn">Start Recorder</button>
   <button id="close-btn" disabled>Close Recorder</button>
+  <h2> Want to give the AI more context? Fill in the info below</h2>
+  <div class="context-form">
+    <label for="question-title">Problem Title</label>
+    <input id="question-title" name="question-title" placeholder="Enter problem title..." />
+
+    <label for="question-description">Problem Description</label>
+    <textarea id="question-description" name="question-description" rows="6" placeholder="Paste or type the full problem description..."></textarea>
+  </div>
 
   <script src="sidepanel.js"></script>
 </body>

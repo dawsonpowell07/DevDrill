@@ -1,6 +1,19 @@
 const injectBtn = document.getElementById("inject-btn");
 const closeBtn = document.getElementById("close-btn");
 
+function sendProblemContextToContentScript() {
+  const title = document.getElementById("question-title").value;
+  const description = document.getElementById("question-description").value;
+
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      type: "QUESTION_CONTEXT",
+      title,
+      description
+    });
+  });
+}
+
 injectBtn.addEventListener("click", async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -8,6 +21,8 @@ injectBtn.addEventListener("click", async () => {
     target: { tabId: tab.id },
     files: ["content.js"]
   });
+
+  sendProblemContextToContentScript();
 
   injectBtn.textContent = "Recorder Active";
   injectBtn.disabled = true;

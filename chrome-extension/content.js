@@ -8,6 +8,16 @@
   style.href = chrome.runtime.getURL("content-style.css");
   document.head.appendChild(style);
 
+  let problemTitle = "";
+  let problemDescription = "";
+
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === "QUESTION_CONTEXT") {
+      problemTitle = message.title;
+      problemDescription = message.description;
+    }
+  });
+
   // Create recorder container
   const container = document.createElement("div");
   container.id = "ai-recorder-ui";
@@ -101,7 +111,11 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ current_transcript: transcript }),
+          body: JSON.stringify({
+            current_transcript: transcript,
+            problem_title: problemTitle,
+            problem_description: problemDescription,
+          }),
         }
       );
 
