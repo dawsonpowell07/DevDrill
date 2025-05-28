@@ -66,27 +66,35 @@ async def generate_feedback(payload: FeedbackRequest):
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a senior software engineer conducting mock technical interviews."},
-            {"role": "user", "content": build_feedback_prompt(transcript)},
+            {"role": "user", "content": build_feedback_prompt(transcript, payload.problem_title, payload.problem_description)},
         ],
         temperature=0.4
     )
     
     print(response.choices[0].message.content)
+    print(payload.problem_title, payload.problem_description)
+    
     return {"feedback": response.choices[0].message.content}
 
-def build_feedback_prompt(transcript: str) -> str:
+def build_feedback_prompt(transcript: str, problem_title: str, problem_description: str) -> str:
     return f"""
 You are acting as a senior software engineer conducting a mock coding interview. 
 Analyze the candidate's spoken explanation of a coding problem solution.
 
-Provide detailed feedback in the following structure:
+Here are the details of the problem: 
+
+Problem Title: {problem_title}
+Problem Description: {problem_description}
+    
+Provide detailed feedback and consider the following:
 
 1. **Problem Understanding** – Does the candidate clearly state what the problem is?
-2. **Approach** – Do they explain their strategy well? Are they using an appropriate algorithm?
+2. **Approach** – Do they explain their strategy well? Are they using an appropriate algorithm? did they address edge cases?
 3. **Time & Space Complexity** – Did they analyze the complexity correctly and completely?
-4. **Communication Clarity** – Was their explanation organized and easy to follow?
+4. **Communication Clarity** – Was their explanation organized and easy to follow? Did they properly walk through a test case?
 5. **Suggestions for Improvement** – Specific tips to improve their interview response.
 
+return the feedback in a constructive tone but also be sure to question and critque their response.
 ---
 
 ### Transcript:
